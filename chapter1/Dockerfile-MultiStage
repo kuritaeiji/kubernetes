@@ -1,0 +1,14 @@
+FROM golang:1.22.1-bullseye as build
+
+COPY ./main.go .
+
+RUN go build -o go-app main.go
+
+FROM ubuntu:22.04
+
+COPY --from=build /go/go-app .
+
+USER nobody
+
+ENTRYPOINT [ "./go-app" ]
+

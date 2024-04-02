@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sample-oneshot-task-job
+spec:
+  completions: 1
+  parallelism: 1
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+        - name: tools-container
+          image: ubuntu:22.04
+          command: ['sleep']
+          args: ['10']
+      restartPolicy: Never

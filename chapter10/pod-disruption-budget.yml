@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: sample-pod-disruption-budget
+spec:
+  minAvailable: 1 # 最低一つのポッド
+  # maxUnavailable: 1 # 最大一つのポッドが使えなくなるのは許可する
+  selector:
+    matchLabels:
+      app: sample-app

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-topology-spread-constraint
+spec:
+  strategy:
+    type: RollingUpdate
+  replicas: 7
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.16
+      topologySpreadConstraints:
+        - topologyKey: kubernetes.io/hostname
+          labelSelector:
+            matchLabels:
+              app: sample-app
+          maxSkew: 1
+          whenUnsatisfiable: DoNotSchedule
+        - topologyKey: topology.kubernetes.io/zone
+          labelSelector:
+            matchLabels:
+              app: sample-app
+          maxSkew: 2
+          whenUnsatisfiable: DoNotSchedule

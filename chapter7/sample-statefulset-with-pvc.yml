@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sample-statefulset-with-pvc
+spec:
+  serviceName: sample-with-pvc
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sample-pvc
+  template:
+    metadata:
+      labels:
+        app: sample-pvc
+    spec:
+      containers:
+        - name: sample-pvc
+          image: nginx:1.16
+          volumeMounts:
+            - name: pvc-template-volume
+              mountPath: /tmp
+  volumeClaimTemplates:
+    - metadata:
+        name: pvc-template-volume
+      spec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: standard
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-with-pvc
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app: sample-pvc
+  ports:
+    - name: http-port
+      protocol: TCP
+      port: 8080
+      targetPort: 80

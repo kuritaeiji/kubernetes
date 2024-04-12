@@ -9,3 +9,4 @@ nodes:
     image: kindest/node:v1.29.2
   - role: worker
     image: kindest/node:v1.29.2
+# kind create cluster --name kind-cluster --config kind.yml

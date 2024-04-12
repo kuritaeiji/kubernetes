@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-pod
+spec:
+  containers:
+    - name: kubernetes
+      image: ghcr.io/kuritaeiji/kubernetes:v1
+  serviceAccount: sample-serviceaccount

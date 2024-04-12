@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sample-db-auth
+data:
+  password: cGFzc3dvcmQ=
+  username: dXNlcg==

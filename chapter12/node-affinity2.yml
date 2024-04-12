@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-node-affinity2
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.16
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: disktype
+                operator: In
+                values: ['hdd']
+              - key: cpuspec
+                operator: In
+                values: ['high']
+          - matchExpressions:
+              - key: disktype
+                operator: In
+                values: ['ssd']
+              - key: cpuspec
+                operator: In
+                values: ['low']
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          preference:
+            matchExpressions:
+              - key: disktype
+                operator: In
+                values: ['hdd']
+              - key: kubernetes.io/hostname
+                operator: In
+                values: ['kindcluster-worker']
+        - weight: 2
+          preference:
+            matchExpressions:
+              - key: disktype
+                operator: In
+                values: ['ssd']
+              - key: kubernetes.io/hostname
+                operator: In
+                values: ['kindcluster-worker2']
